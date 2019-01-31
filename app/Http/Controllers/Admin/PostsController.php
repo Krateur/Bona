@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Requests\CreationRequest;
 use App\Post;
 use Illuminate\Http\Request;
@@ -34,7 +35,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        $categories->pluck('name', 'id');
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -53,7 +56,7 @@ class PostsController extends Controller
             $image = $request->file('image');
             $filename = time(). '.' . $image->getClientOriginalExtension();
             $location = public_path('image/' .$filename);
-            Image::make($image)->resize(800, 400)->save($location);
+            Image::make($image)->resize(500, 333)->save($location);
             $post->image = $filename;
         }
         $post->save();
@@ -81,7 +84,9 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        $categories->pluck('name', 'id');
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -97,11 +102,12 @@ class PostsController extends Controller
         $post->title = $request->get('title');
         $post->author = $request->get('author');
         $post->content = $request->get('content');
+        $post->category_id = $request->get('category_id');
         if($request->hasFile('image')){
             $image = $request->file('image');
             $filename = time(). '.' . $image->getClientOriginalExtension();
             $location = public_path('image/' .$filename);
-            Image::make($image)->resize(800, 400)->save($location);
+            Image::make($image)->resize(500, 333)->save($location);
             $post->image = $filename;
         }
         $post->save();

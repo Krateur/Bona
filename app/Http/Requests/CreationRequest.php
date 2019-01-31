@@ -27,7 +27,8 @@ class CreationRequest extends FormRequest
             'title' => 'required|max:255|min:6',
             'content' => 'required',
             'author' => 'required|min:3',
-            'image' => 'required|image'
+            'image' => 'required|image',
+            'category_id' => 'required|integer'
         ];
     }
 }

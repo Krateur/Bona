@@ -22,11 +22,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Author</label>
-                                <select class="custom-select col-12" id="inlineFormCustomSelect" name="author">
-                                    <option value="Herman" selected>One</option>
-                                    <option value="Herman">Two</option>
-                                    <option value="Herman">Three</option>
-                                </select>
+                                <input type="text" class="form-control" value="{{ Auth::user()->name }}" name="author">
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
@@ -35,9 +31,9 @@
                             <div class="form-group">
                                 <label>Blog category</label>
                                 <select class="custom-select col-12" id="inlineFormCustomSelect" name="category_id">
-                                    <option selected value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    @foreach($categories as $category)
+                                        <option selected value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
